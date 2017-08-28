@@ -1,0 +1,4 @@
+{# Création de la page des 3 dernières annonces #}
+ 
+      <h4>News : Les trois dernières annonces</h4>
+            {{ render(controller("OCPlatformBundle:Advert:menu", {'limit': 3})) }}

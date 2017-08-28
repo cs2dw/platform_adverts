@@ -1,0 +1,18 @@
+{# src/OC/CoreBundle/Resources/views/Core/contact.html.twig #}
+{# affiche la page de contact qui ajoute un message flash  “La page de contact n’est pas encore disponible” et redirige vers la page d’accueil.#}
+
+
+{% extends "OCCoreBundle::layout.html.twig" %}
+
+{% block body %}
+
+<h3>Nous contacter</h3>
+
+<div class="alert alert-info" role="alert">
+ Message flash : “La page de contact n’est pas encore disponible"
+</div>
+<a href="{{ path('oc_core_home') }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i>
+      Retourner à l'acceuil
+    </a>
+{% endblock %}

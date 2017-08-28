@@ -1,0 +1,12 @@
+# routing de la page accueil 
+oc_core_home:
+    path:     /
+    defaults: 
+        _controller: OCCoreBundle:Core:index
+        
+# routing de la page contact   
+oc_core_contact:
+    path:      /contact
+    defaults:
+        _controller: OCCoreBundle:Core:contact
+

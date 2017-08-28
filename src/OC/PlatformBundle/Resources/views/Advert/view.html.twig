@@ -1,0 +1,117 @@
+{# src/OC/PlatformBundle/Resources/view/Advert/view.html.twig #}
+
+{% extends "OCCoreBundle::layout.html.twig" %}
+
+{% block title %}
+  Lecture d'une annonce - {{ parent() }}
+{% endblock %}
+
+{% block body %}
+ 
+ 
+ <div style="float: left; margin-right: 1em;">
+
+    {# On vérifie qu'une image soit bien associée à l'article #}
+
+    {% if advert.image is not null %}
+
+      <img
+
+        src="{{ asset(advert.image.webPath) }}"
+
+        alt="{{ advert.image.alt }}"
+
+        height="60"
+
+      />
+
+    {% endif %}
+
+  </div>
+
+
+
+  <h3 class="text-primary">{{ advert.title }}</h3>
+
+  <i>Par {{ advert.author }}, le {{ advert.date|date('d/m/Y') }}</i>
+
+  <div class="well">
+
+    {{ advert.content }}
+
+  </div>
+{% if not advert.categories.empty %}
+  <p>
+    Cette annonce est parue dans les catégories suivantes :
+    {% for category in advert.categories %}
+      {{ category.name }}{% if not loop.last %}, {% endif %}
+    {% endfor %}
+  </p>
+{% endif %}
+
+{% if listAdvertSkills|length > 0 %}
+  <div>
+    Cette annonce requiert les compétences suivantes :
+    <ul>
+      {% for advertSkill in listAdvertSkills %}
+        <li>{{ advertSkill.skill.name }} : niveau {{ advertSkill.level }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endif %}
+
+  <p>
+      
+    <a href="{{ path('oc_platform_home') }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i>
+      Retour à la liste
+    </a>
+      
+    {# un petit plus : j'envoie au controleur oc_platform_edit  le contenu de l'annonce complet par rapport à la variable $id et les autres variables $title, $author, ... correspondant à l'id #}
+      
+    <a href="{{ path('oc_platform_edit', {'id': advert.id, 'title': advert.title, 'author': advert.author, 'content': advert.content}) }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-edit"></i>
+      Modifier l'annonce
+    </a>
+    <a href="{{ path('oc_platform_delete', {'id': advert.id}) }}" class="btn btn-danger">
+      <i class="glyphicon glyphicon-trash"></i>
+      Supprimer l'annonce
+    </a>
+    <a type="button" href="#candidatures" class="page-scroll btn btn-primary">Candidatures <span class="badge">{{ nbApp }}</span></a> 
+  </p>
+<br>
+<hr>
+<br>
+ 
+<h4 id="candidatures" class="text-primary">Candidatures</h4>
+
+  {% for application in listApplications %}
+
+
+ <table class="table table-striped">
+  <thead>
+    <tr>
+       
+     <th>Date : </th>
+      <th>Nom</th>
+      <th>Commentaire</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    <th>  {{ application.date|date('d/m/Y') }}</th>    
+    
+     
+   
+      <th>{{ application.author }}</th>
+     
+   
+          <th>{{ application.content }}</th>
+      
+     
+    </tr>
+  </tbody>
+</table>
+
+ {% endfor %}
+{% endblock %}

@@ -1,0 +1,58 @@
+{# src/OC/UserBundle/Resources/views/layout.html.twig #}
+
+{# On étend notre layout #}
+{% extends "OCCoreBundle::layout.html.twig" %}
+
+{# Dans notre layout, il faut définir le block body #}
+{% block body %}
+<!--login modal-->
+<div tabindex="-1" class="modal show" id="loginModal" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+  <div class="modal-content">
+      <div class="modal-header">
+          <button class="close" aria-hidden="true" type="button" data-dismiss="modal">×</button>
+          <h1 class="text-center">Connexion</h1>
+           {# On affiche les messages flash que définissent les contrôleurs du bundle #}
+  {% for key, messages in app.session.flashbag.all() %}
+    {% for message in messages %}
+      <div class="alert alert-{{ key }}">
+        {{ message|trans({}, 'FOSUserBundle') }}
+      </div>
+    {% endfor %}
+  {% endfor %}
+
+  {# On définit ce block, dans lequel vont venir s'insérer les autres vues du bundle #}
+  {% block fos_user_content %}
+
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+    Connecté en tant que {{ app.user.username }}
+    -
+    <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a>
+{% else %}
+      </div>
+      <div class="modal-body">
+          <form class="form col-md-12 center-block">
+            <div class="form-group">
+              <input class="form-control input-lg"  href="{{ path('fos_user_security_login') }}">type="text" placeholder="Identifiant">
+            </div>
+           
+            <div class="form-group">
+              <button class="btn btn-primary btn-lg btn-block" href="{{ path('fos_user_security_login') }}">Connexion</button>
+              <span class="pull-right"><a href="{{ path('fos_user_registration_register') }}  ">Pas de comptre : s'enregistrer</a></span>
+            </div>
+          </form>
+      </div>
+      <div class="modal-footer">
+          <div class="col-md-12">
+          <button class="btn" aria-hidden="true" data-dismiss="modal">Cancel</button>
+		  </div>	
+      </div>
+  </div>
+  </div>
+</div>
+ 
+   {% endif %} 
+
+  {% endblock fos_user_content %}
+
+{% endblock %}

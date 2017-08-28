@@ -1,0 +1,13 @@
+{# src/OC/PlatformBundle/Resources/views/Advert/purge.html.twig #}
+
+{% extends "OCPlatformBundle::layout.html.twig" %}
+
+{% block body %}
+
+
+{% pour un message flash_dans app.session.flashbag.get('notice') %}
+    <div class="flash-notice">
+        {{ flash_message }}
+    </div>
+{% endfor %}
+{% endblock %}

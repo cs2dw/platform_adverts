@@ -1,0 +1,4 @@
+# src/OC/PlatformBundle/Resources/translations/messages.fr.yml
+
+Hello: Bonjour %name% !
+bye: Au revoir %name% !

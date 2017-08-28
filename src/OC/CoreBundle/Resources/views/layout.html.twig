@@ -1,0 +1,202 @@
+{# src/OC/CoreBundle/Resources/views/layout.html.twig #}
+
+
+
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+    <title>{% block title %}OC Plateforme{% endblock %}</title>
+
+
+
+    {% block stylesheets %}
+
+      {# On charge le CSS de bootstrap depuis le site directement #}
+
+      <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    {% stylesheets filter="cssrewrite, ?scssphp"
+
+        'bundles/ocplatform/css/main.css'
+
+        'bundles/ocplatform/css/platform.css' %}
+
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+
+    {% endstylesheets %}
+ 
+    {% endblock %}
+
+  </head>
+
+
+
+  <body>
+
+  
+                <ul class="nav navbar-nav navbar-right" id="signInDropdown">
+                    <li class="dropdown">
+                        {# On affiche les messages flash que définissent les contrôleurs du bundle #}
+  {% for key, messages in app.session.flashbag.all() %}
+    {% for message in messages %}
+      <div class="alert alert-{{ key }}">
+        {{ message|trans({}, 'FOSUserBundle') }}
+      </div>
+    {% endfor %}
+  {% endfor %}
+
+                        <button class="btn btn-info navbar-btn dropdown-toggle" id="dropdownMenu1" type="button" data-toggle="dropdown"><i class="fa fa-language" aria-hidden="true"></i>
+                            
+                             
+                          </button>
+                       <i class="glyphicon glyphicon-user"></i>
+                            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                            {{ app.user.username }}
+                             
+                        
+                            
+                        <ul class="dropdown-menu">
+                          <li style="width: 250px;">
+                                <form class="navbar-form form" role="form">
+                                    <div class="form-group">
+                                      <div class="input-group">
+                                        
+    
+  
+                                            
+                                            <!--USER-->
+                                          
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                          <span class="caret"> <a href="{{ path('fos_user_security_logout') }}">Déconnexion</a></span>
+                                        {% else %}
+                                        <div class="form-group">
+                                        <!--BUTTON-->
+                                        <button class="btn btn-primary form-control" type="submit"> <a href="{{ path('fos_user_security_login') }}">Connexion</a></button>
+                                    </div>
+                               
+                            {% endif %}
+                                        
+                                    </div>
+                                    <!--  BASIC ERROR MESSAGE
+                                    <div class="form-group">
+                                    <label class="error-message color-red">*Email &amp; password don't match!</label>
+                                    </div>
+                                    -->
+                                    
+                                    <div class="form-group">
+                                        <!--RESET PASSWORD LINK-->
+                                        <span class="pull-right"><a href="#">Forgot Password?</a></span>
+                                    </div>
+                                </form>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <!-- DROPDOWN LOGIN ENDS HERE  -->
+           
+
+    <div id="header" class="jumbotron">
+
+      <h1>Ma plateforme d'annonces</h1>
+
+      <p>
+
+        Ce projet est propulsé par Symfony, et construit grâce au MOOC OpenClassrooms et SensioLabs. Sonia
+
+      </p>
+
+      <p>
+
+        <a class="btn btn-primary btn-lg" href="https://openclassrooms.com/courses/developpez-votre-site-web-avec-le-framework-symfony2">
+
+          Participer au MOOC »
+
+        </a>
+
+      </p>
+
+    </div>
+
+
+
+    <div class="row">
+
+      <div id="menu" class="col-md-3">
+
+        <h3>Les annonces</h3>
+
+        <ul class="nav nav-pills nav-stacked">
+
+          <li><a href="{{ path('oc_platform_home') }}">Accueil</a></li>
+        
+        {% if is_granted('ROLE_AUTEUR') %}
+          <li><a href="{{ path('oc_platform_add') }}">Ajouter une annonce</a></li>
+        {% endif %}
+          <li><a href="{{ path('oc_platform_purge') }}">Purger les annonces</a></li>    
+          <li><a href="{{ path('oc_core_contact') }}">Contact</a></li>  
+            
+
+        </ul>
+
+
+
+        <h4>Dernières annonces</h4>
+
+        {{ render(controller("OCPlatformBundle:Advert:menu", {'limit': 3})) }}
+
+      </div>
+
+      <div id="content" class="col-md-9">
+
+        {% block body %}
+
+        {% endblock %}
+
+      </div>
+
+    </div>
+
+
+
+    <hr>
+
+
+<div>
+    <footer>
+
+      <p>The sky's the limit © {{ 'now'|date('Y') }} and beyond.</p>
+
+    </footer>
+
+  </div>
+
+
+
+  {% block javascripts %}
+
+    {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    {% javascripts filter='jsqueeze' 'bundles/ocplatform/js/main.js' %}
+  <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}  
+  {% endblock %}
+
+
+
+  </body>
+
+</html>
